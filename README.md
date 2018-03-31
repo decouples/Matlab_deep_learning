@@ -1,2 +1,2 @@
 # Python-Html
-Some code for search picture in html.
+这个工程用于记录学习过程中的一些关于网络爬虫代码，或者其他和网络图片相关的内容!
