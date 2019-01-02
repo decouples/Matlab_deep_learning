@@ -1,0 +1,16 @@
+function filePath = OpenImageFile(imgfilePath)
+
+if nargin < 1
+    imgfilePath = fullfile(pwd, 'images/01.BMP');
+end
+[filename, pathname, filterindex] = uigetfile( ...
+    { '*.bmp;*.jpg;*.tif;*.png;*.gif','All Image Files';...
+    '*.*',  '所有文件 (*.*)'}, ...
+    '选择视频文件', ...
+    'MultiSelect', 'off', ...
+    imgfilePath);
+filePath = 0;
+if isequal(filename, 0) || isequal(pathname, 0)
+    return;
+end
+filePath = fullfile(pathname, filename);
