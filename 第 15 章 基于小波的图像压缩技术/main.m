@@ -1,0 +1,10 @@
+clc; clear all; close all;
+filename = fullfile(pwd, 'images', 'cameraman.tif');
+x = imread(filename);
+num = 2;
+[cf_vec, dim_vec] = wavedec_process(x, num, 'haar');
+th = 10;
+y = waverec_process(cf_vec, dim_vec, 'haar', th);
+output_img(x, y, filename, th, 'png');
+p = PSNR(x,y);
+fprintf('\n压缩前后图像的PSNR值为%.2f\n', p);
