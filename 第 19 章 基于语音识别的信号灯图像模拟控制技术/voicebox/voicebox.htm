@@ -1,0 +1,284 @@
+<html>
+
+<head>
+<meta HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=windows-1252">
+<meta NAME="GENERATOR" CONTENT="Microsoft FrontPage 3.0">
+<title>VOICEBOX: Speech Processing Toolbox for MATLAB</title>
+<meta NAME="Template" CONTENT="E:\Program Files\Microsoft Office\Office\html.dot">
+</head>
+
+<body LINK="#0000ff" VLINK="#800080">
+
+<h1>VOICEBOX: Speech Processing Toolbox for MATLAB</h1>
+
+<h2>Introduction</h2>
+
+<p>VOICEBOX is a speech processing toolbox consists of MATLAB routines that are maintained
+by and mostly written by <a HREF="http://www.ee.ic.ac.uk/hp/staff/dmb/dmb.html">Mike
+Brookes</a>, <a HREF="http://www.ee.ic.ac.uk/">Department of Electrical &amp; Electronic
+Engineering</a>, <a HREF="http://www.ic.ac.uk/">Imperial College</a>, Exhibition Road,
+London SW7 2BT, UK. Several of the routines require MATLAB V5.</p>
+
+<p>The routines are available as a <a HREF="voicebox.tar.Z">compressed tar file</a> or as
+a <a HREF="voicebox.zip">zip archive</a> and are made available under the terms of the <a
+HREF="copying.txt">GNU Public License</a>. </p>
+
+<p>Please send any comments, suggestions, bug reports etc to <a
+HREF="mailto:mike.brookes@ic.ac.uk">mike.brookes@ic.ac.uk</a>. </p>
+
+<hr>
+
+<h2>Contents</h2>
+
+<hr>
+
+<dl> 
+  <dt><a HREF="#file">Audio File Input/Output </a></dt>
+  <dd>Read and write WAV and other speech file formats </dd>
+  <dt><a HREF="#frequency">Frequency Scales </a></dt>
+  <dd>Convert between Hz, Mel, Erb and MIDI frequency scales </dd>
+  <dt><a HREF="#fourier">Fourier/DCT/Hartley Transforms</a></dt>
+  <dd>Various related transforms </dd>
+  <dt><a HREF="#random">Random Number Generation</a></dt>
+  <dd>Generate random vectors and noise signals </dd>
+  <dt><a HREF="#distance">Vector Distances</a></dt>
+  <dd>Calculate distances between vector lists </dd>
+  <dt><a HREF="#analysis">Speech Analysis</a></dt>
+  <dd>Active level estimation, Spectrograms </dd>
+  <dt><a HREF="#lpc">LPC Analysis of Speech</a></dt>
+  <dd>Linear Predictive Coding routines </dd>
+  <dt><a HREF="#synthesis">Speech Synthesis</a></dt>
+  <dd>Glottal waveform models </dd>
+  <dt><a href="#enhance">Speech Enhancement</a></dt>
+  <dd>Spectral noise subtraction</dd>
+  <dt><a HREF="#coding">Speech Coding</a></dt>
+  <dd>PCM coding, Vector quantisation </dd>
+  <dt><a HREF="#recog">Speech Recognition</a></dt>
+  <dd>Front-end processing for recognition </dd>
+  <dt><a HREF="#utility">Utility Functions</a></dt>
+  <dd>Miscellaneous utility functions </dd>
+</dl>
+
+<hr>
+
+<hr>
+
+<h2><a NAME="file">Audio File Input/Output</a></h2>
+<blockquote>
+  <p>Routines are available to read and, in some cases write, a variety of file 
+    formats:</p>
+  <table width="100%" border="0" cellpadding="2">
+    <tr> 
+      <td width="50"><b>Read</b></td>
+      <td width="50"><b>Write</b></td>
+      <td width="30"><b>Suffix</b></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr> 
+      <td width="50"><a href="txt/readwav.txt">readwav</a></td>
+      <td width="50"><a href="txt/writewav.txt">writewav</a></td>
+      <td width="30">.wav</td>
+      <td>These routines allow an arbitrary number of channels and can deal with 
+        linear PCM (any precision up to 32 bits), A-law PCM and Mu-law PCM. Large 
+        files can be read and written in small chunks.</td>
+    </tr>
+    <tr> 
+      <td width="50"><a href="txt/readhtk.txt">readhtk</a></td>
+      <td width="50"><a href="txt/writehtk.txt">writehtk</a></td>
+      <td width="30">.htk</td>
+      <td>Read and write waveform files used by Entropic's Hidden Markov Toolkit.</td>
+    </tr>
+    <tr> 
+      <td width="50"><a href="txt/readsfs.txt">readsfs</a></td>
+      <td width="50">&nbsp;</td>
+      <td width="30">.sfs</td>
+      <td>Speech Filing system files from Mark Huckvale at UCL.</td>
+    </tr>
+    <tr> 
+      <td width="50"><a href="txt/readsph.txt">readsph</a></td>
+      <td width="50">&nbsp;</td>
+      <td width="30">.sph</td>
+      <td>NIST Sphere format files (including TIMIT).</td>
+    </tr>
+    <tr>
+      <td width="50"><a href="txt/readaif.txt">readaif</a></td>
+      <td width="50">&nbsp;</td>
+      <td width="30">.aif</td>
+      <td>Audio Interchange File Format used by Mac users.</td>
+    </tr>
+  </table>
+  
+</blockquote>
+<hr>
+
+<h2><a NAME="frequency">Frequency Scale Conversion</a></h2>
+
+<ul>
+  <li>The <i>mel scale</i> is based on the human perception of sinewave pitch. The routines <a
+    HREF="txt/mel2frq.txt">mel2frq</a> and <a HREF="txt/frq2mel.txt">frq2mel</a> convert
+    between this scale and frequency in Hz. </li>
+  <li>The <i>erb</i> scale is based on the equivalent rectangular bandwidths of the human ear.
+    The routines <a HREF="txt/erb2frq.txt">erb2frq</a> and <a HREF="txt/frq2erb.txt">frq2erb</a>
+    convert between the erb rate scale and frequency in Hz. </li>
+  <li>The <i>midi standard</i> specifies a numbering of <i>semitones</i> with middle C being
+    60. The routines <a HREF="txt/frq2midi.txt">frq2midi</a> and <a HREF="txt/midi2frq.txt">midi2frq</a>
+    convert between this musical frequency scale and Hz. <a HREF="txt/frq2midi.txt">frq2midi</a>
+    will in addition output note names in a character format. <a HREF="txt/midi2frq.txt">midi2frq</a>
+    can use the normal equal tempered scale or else the pythagorean scale of just intonation.</li>
+</ul>
+
+<hr>
+
+<h2><a NAME="fourier">Fourier, DCT and Hartley Transforms</a></h2>
+
+<ul>
+  <li>The routines <a HREF="txt/rfft.txt">rfft</a>, and <a HREF="txt/irfft.txt">irfft</a>
+    perform forward and inverse fourier transforms on real data. Only half of the conjugate
+    symmetric transform is generated by the forward routine RFFT. For even length data, the
+    inverse routine, IRFFT, is asymptotically twice as fast as the built-in fft routine IFFT.
+    The routine <a HREF="txt/rsfft.txt">rsfft </a>performs the forward transform on real
+    symmetric data. </li>
+  <li>The routines <a HREF="txt/rdct.txt">rdct</a>, and <a HREF="txt/irdct.txt">irdcft</a>
+    perform forward and inverse discrete cosine transforms on real data. The routines are
+    asymptotically twice as fast as the complex-data routines in the image-processing and
+    signal-processing toolboxes. </li>
+  <li>The routine <a HREF="txt/rhartley.txt">rhartley </a>performs a forward or inverse
+    Hartley transform.</li>
+</ul>
+
+<hr>
+
+<h2><a NAME="random">Random Number Generation</a></h2>
+
+<ul>
+  <li>The routine <a HREF="txt/randvec.txt">randvec </a>generates random vectors 
+    with a given mean and covariance. </li>
+  <li>The routine <a HREF="txt/usasi.txt">usasi </a>generates noise with a USASI 
+    spectrum.</li>
+  <li>The routine <a href="txt/randfilt.txt">randfilt</a> generates filtered gaussian 
+    noise without any startup transients. </li>
+</ul>
+
+<hr>
+
+<h2><a NAME="distance">Vector Distance</a></h2>
+
+<ul>
+  <li>The routine <a HREF="txt/disteusq.txt">disteusq </a>calculates the squared 
+    euclidean distance between all pairs of rows of two matrices.</li>
+  <li>The routines <a href="txt/distitar.txt">distitar</a>, <a href="txt/distisar.txt">distisar</a> 
+    and <a href="txt/distchar.txt">distchar</a> calculate the Itakura, Itakura-Saito 
+    and COSH spectral distances between sets of AR coefficients.</li>
+  <li>The routines <a href="txt/distitpf.txt">distitpf</a>, <a href="txt/distispf.txt">distispf</a> 
+    and <a href="txt/distchpf.txt">distchpf</a> calculate the Itakura, Itakura-Saito 
+    and COSH spectral distances between power spectra.</li>
+</ul>
+
+<hr>
+<h2><a NAME="analysis">Speech Analysis</a></h2>
+
+<ul>
+  <li>The routine <a HREF="txt/enframe.txt">enframe</a> can be used to split a 
+    signal up into frames. It can optionally apply a window to each frame. </li>
+  <li>The routine <a HREF="txt/activlev.txt">activlev </a>calculates the active 
+    level of a speech segment according to ITU-T recommendation P.56. </li>
+  <li>The routine <a HREF="txt/spgrambw.txt">spgrambw </a>draws a monochrome spectrogram 
+    with a dB scale.</li>
+  <li>The routine <a HREF="txt/schmitt.txt">schmitt </a>passes a signal through 
+    a schmitt trigger.</li>
+</ul>
+<hr>
+<h2><a name="enhance">Speech Enhancement</a></h2>
+<ul>
+  <li>The routine <a href="txt/specsubm.txt">specsubm</a> implements spectral 
+    subtraction using an algorithm of Martin. </li>
+</ul>
+<hr>
+
+<h2><a NAME="lpc">LPC Analysis of Speech</a></h2>
+
+<ul>
+  <li>The routines <a HREF="txt/lpcauto.txt">lpcauto</a> and <a HREF="txt/lpccovar.txt">lpccovar</a> 
+    perform linear predictive coding (LPC) analysis. The routines relating to 
+    LPC are described in more detail on <a HREF="lpc.html">another page</a>. A 
+    large number of <a
+    HREF="lpc.html">conversion routines</a> are included for changing the form 
+    of the LPC coefficients (e.g. AR coefficients, reflection coefficients etc.): 
+    these are of the form lpcxx2yy where xx and yy denote the coefficient sets. 
+    The routine <a
+    HREF="txt/lpcrr2am.txt">lpcrr2am </a>calculates LPC filters for all orders 
+    up to a given maximum. </li>
+  <li>The routine <a HREF="txt/lpcbwexp.txt">lpcbwexp </a>performs bandwidth expansion 
+    on an LPC filter. </li>
+  <li>The routine <a HREF="txt/ccwarpf.txt">ccwarpf </a>performs frequency warping 
+    in the complex cepstrum domain. </li>
+  <li>The routine <a HREF="txt/lpcifilt.txt">lpcifilt </a>performs inverse filtering 
+    to estimate the glottal waveform from the speech signal and the lpc coefficients.</li>
+  <li>The routine <a href="txt/lpcrand.txt">lpcrand</a> can be used to generate 
+    random, stable filters for testing purposes. </li>
+</ul>
+
+<hr>
+
+<h2><a NAME="synthesis">Speech Synthesis</a></h2>
+
+<ul>
+  <li>The routines <a HREF="txt/glotros.txt">glotros</a> and <a HREF="txt/glotlf.txt">glotlf</a>
+    implement two common models for the waveform of airflow through the vocal folds.</li>
+</ul>
+
+<hr>
+
+<h2><a NAME="coding">Speech Coding</a></h2>
+
+<ul>
+  <li>The routines <a HREF="txt/lin2pcma.txt">lin2pcma</a>, <a HREF="txt/lin2pcmu.txt">lin2pcmu</a>,
+    <a HREF="txt/pcma2lin.txt">pcma2lin</a>, and <a HREF="txt/pcmu2lin.txt">pcmu2lin</a>
+    convert audio waveforms to and from the 8-bit A-law and Mu-law PCM formats that are used
+    in telecommunications: Mu-law is used in the USA and Japan while A-law is used in the rest
+    of the world. The two formats are very similar and, for speech waveforms, give about the
+    same perceived quality as 12-bit linear encoding. Alternate bits in the A-law format are
+    usually inverted before transmission: the conversion routines can optionally include this.
+    The conversions are defined by ITU standard G.711. </li>
+  <li>The routines <a HREF="txt/kmeans.txt">kmeans </a>and <a HREF="txt/kmeanlbg.txt">kmeanlbg
+    </a>perform vector quantisation using the kmeans algorithm. </li>
+  <li>The routine <a HREF="txt/potsband.txt">potsband </a>calculates a bandpass filter
+    corresponding to the standard telephone passband.</li>
+</ul>
+
+<hr>
+
+<h2><a NAME="recog">Speech Recognition</a></h2>
+
+<ul>
+  <li>The routine <a HREF="txt/melcepst.txt">melcepst </a>implements a mel-cepstrum 
+    front end for a recogniser. The associated bandpass filter matrix is generated 
+    by <a
+    HREF="txt/melbankm.txt">melbankm </a>.</li>
+  <li>The routines <a HREF="txt/cep2pow.txt">cep2pow </a>and <a HREF="txt/pow2cep.txt">pow2cep 
+    </a>convert state means and variances between the mel-cepstrum and power domains.</li>
+  <li>The routine <a href="txt/gaussmix.txt">gaussmix</a> fits a gaussian mixture 
+    distribution to a collection of observation vectors.</li>
+</ul>
+
+<hr>
+
+<h2><a NAME="utility">Utility Functions</a></h2>
+
+<ul>
+  <li>The routine <a HREF="txt/zerotrim.txt">zerotrim </a>removes from a matrix 
+    any trailing rows and columns that are all zero. </li>
+  <li>The routine <a href="txt/logsum.txt">logsum</a> calculates log(sum(exp(x))) 
+    without overflow problems.</li>
+  <li>The routine <a href="txt/dualdiag.txt">dualdiag</a> simultaneously diagonalises 
+    two matrices: this is useful in computing LDA or IMELDA transforms.</li>
+  <li>The routines <a HREF="txt/permutes.txt">permutes </a>and <a HREF="txt/choosenk.txt">choosenk 
+    </a>generate respectively all possible permutations of the numbers 1:n and 
+    all possible ways of choosing k elements out of the numbers 1:n without duplications. 
+    They are equivalent to the standard MATLAB routines PERMS and NCHOOSEK but 
+    much faster.</li>
+  <li>The routine <a HREF="txt/zerotrim.txt">sprintsi </a>prints a value with 
+    the correct standard SI multiplier (e.g. 2100 prints as 2.1 k).</li>
+</ul>
+</body>
+</html>
