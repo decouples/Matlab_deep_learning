@@ -1,5 +1,6 @@
 # Matlab
-这是书籍《MATLAB计算机视觉与深度学习实战》配套代码
+这是书籍《MATLAB计算机视觉与深度学习实战》配套代码 [百度云电子书](链接：https://pan.baidu.com/s/1xrV2IQ11J3hxgC2PXjG3Eg) 
+提取码：9e8c
 ## 目录及功能介绍
 
 * [01](): 直方图优化去雾技术
